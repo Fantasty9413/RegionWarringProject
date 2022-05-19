@@ -12,7 +12,7 @@ path = "./Data/"
 db_path = path + db_name
 
 db_table_name = "TriggerInfo"
-db_table_keywords = ("EquipmentId", "TriggerData", "TriggerTime", "TriggerNum")
+db_table_keywords = ("EquipmentId", "TriggerDate", "TriggerTime", "TriggerNum", "PostFlag")
 
 # 数据库初始化
 def db_initial():
@@ -35,15 +35,16 @@ def db_initial():
 # triggerinfo以dict的形式
 def db_insert_info(triggerinfo):
     # 构造values--存储要写入数据库的value
-    values = ()
-    for index in range(0, 4):
-        values = values + (triggerinfo.get(db_table_keywords[index]),)
+    info = ()
+    for index in range(0, 5):
+        info = info + (triggerinfo.get(db_table_keywords[index]),)
     # 连接数据库
     con = sqlite3.connect(db_path)
     # 插入数据
     cur = con.cursor()
-    sql_ins = "insert into " + db_table_name + " values(?,?,?,?);"
-    cur.execute(sql_ins, values)
+    sql_ins = "insert into " + db_table_name + " values(?,?,?,?,?);"
+    sql_values = info
+    cur.execute(sql_ins, sql_values)
     # 关闭数据库
     con.commit()
     con.close()
@@ -51,8 +52,8 @@ def db_insert_info(triggerinfo):
 
 if __name__ == "__main__":
     db_initial()
-    test_info_dict = {"EquipmentId": "1", "TriggerData": "xxx", "TriggerTime": "xxx", "TriggerNum": "1"}
-    for index in range(0, 4):
+    test_info_dict = {"EquipmentId": "1", "TriggerDate": "xxx", "TriggerTime": "xxx", "TriggerNum": "1", "PostFlag": "False"}
+    for index in range(0, 5):
         print(test_info_dict.get(db_table_keywords[index]))
     db_insert_info(test_info_dict)
     db_insert_info(test_info_dict)
