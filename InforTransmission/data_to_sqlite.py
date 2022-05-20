@@ -6,6 +6,7 @@
 
 import sqlite3
 import os
+import Log
 
 db_name = "TriggerInfo.db"
 path = "./Data/"
@@ -19,6 +20,7 @@ def db_initial():
     # 判断数据库是否存在，存在则删除
     if os.path.exists(db_path):
         os.remove(db_path)
+        Log.logger_report.info("Database is moved.")
     # 创建数据库文件
     con = sqlite3.connect(db_path)
     # 创建表单
